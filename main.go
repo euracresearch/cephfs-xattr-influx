@@ -28,6 +28,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"strconv"
 	"time"
 
 	"github.com/ceph/go-ceph/cephfs"
@@ -111,7 +112,13 @@ func main() {
 			if err != nil {
 				continue
 			}
-			fields[a] = b
+
+			f, err := strconv.ParseFloat(string(b), 64)
+			if err != nil {
+				log.Printf("unable to convert %q to float: %v", b, err)
+			}
+
+			fields[a] = f
 		}
 
 		writeAPI.WritePoint(influxdb2.NewPoint(
