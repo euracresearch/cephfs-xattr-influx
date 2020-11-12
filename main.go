@@ -27,25 +27,34 @@ import (
 	"flag"
 	"io/ioutil"
 	"log"
+	"os"
 	"time"
 
 	"github.com/ceph/go-ceph/cephfs"
 	"github.com/ceph/go-ceph/rados"
 	influxdb2 "github.com/influxdata/influxdb-client-go/v2"
+	"github.com/peterbourgon/ff/v3"
 )
 
 func main() {
+	fs := flag.NewFlagSet("cephfs-xattr-influx", flag.ExitOnError)
 	var (
-		influxAddr   = flag.String("influx.addr", "http://localhost:8086", "")
-		influxToken  = flag.String("influx.token", "", "InfluxDB authentication token. (For InfluxDB 1.8 use 'username:password')")
-		influxOrg    = flag.String("influx.org", "", "InfluxDB Organisation. (For InfluxDB 1.8 leave this empty)")
-		influxBucket = flag.String("influx.bucket", "", "InfluxDB Bucket. (For InfluxDB 1.8 use database/retention-policy, skip retention policy if default is used)")
-		cephClient   = flag.String("ceph.client", "admin", "Ceph client name.")
-		cephKey      = flag.String("ceph.keyring", "", "Ceph client authentication key.")
-		cephMons     = flag.String("ceph.mons", "", "Comma seperated list of ceph monitors. (e.g. mon1,mon2)")
-		pathsFile    = flag.String("paths", "paths.json", "JSON file with the paths to monitor.")
+		influxAddr   = fs.String("influx.addr", "http://localhost:8086", "")
+		influxToken  = fs.String("influx.token", "", "InfluxDB authentication token. (For InfluxDB 1.8 use 'username:password')")
+		influxOrg    = fs.String("influx.org", "", "InfluxDB Organisation. (For InfluxDB 1.8 leave this empty)")
+		influxBucket = fs.String("influx.bucket", "", "InfluxDB Bucket. (For InfluxDB 1.8 use database/retention-policy, skip retention policy if default is used)")
+		cephClient   = fs.String("ceph.client", "admin", "Ceph client name.")
+		cephKey      = fs.String("ceph.keyring", "", "Ceph client authentication key.")
+		cephMons     = fs.String("ceph.mons", "", "Comma seperated list of ceph monitors. (e.g. mon1,mon2)")
+		pathsFile    = fs.String("paths", "paths.json", "JSON file with the paths to monitor.")
+		_            = fs.String("config", "", "config file (optional)")
 	)
-	flag.Parse()
+
+	ff.Parse(fs, os.Args[1:],
+		ff.WithEnvVarPrefix("CEPH_XATTR"),
+		ff.WithConfigFileFlag("config"),
+		ff.WithConfigFileParser(ff.PlainParser),
+	)
 
 	b, err := ioutil.ReadFile(*pathsFile)
 	if err != nil {
