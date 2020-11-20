@@ -56,3 +56,37 @@ Show all enabled timers:
 ```
 $ systemctl list-timers
 ```
+
+## Examples
+
+Find here some examples for a `config` and `paths.json` file:
+
+### `config`
+
+```
+influx.addr https://influxdb:8086
+influx.bucket ceph
+influx.org it
+influx.token c29tZXNlY3JldHRva2VuCg==
+ceph.client cephfs.xattr.influx
+ceph.keyring c29tZWNlcGhzZWNyZXR0b2tlbnllYQo=
+ceph.mon 192.168.1.1,192.168.1.2,192.168.1.3
+```
+
+### `paths.json`
+
+```
+[
+	{
+		"Organisation": "root",
+		"User": "root",
+		"Path": "/"
+	},
+	{
+		"Organisation": "org1",
+		"User": "user2",
+		"Path": "/org1/user2"
+	}
+]
+```
+
