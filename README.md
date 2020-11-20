@@ -25,10 +25,10 @@ it's `config` and `paths.json` files to be prestend in
 
 ### Instructions
 
-Install the `cephfs-xattr-influx` binary to `/usr/bin/`:
+Download and install the `cephfs-xattr-influx` binary to `/usr/bin/`:
 
 ```
-$ cp cephfs-xattr-influx /usr/bin
+$ curl -L https://github.com/euracresearch/cephfs-xattr-influx/releases/download/<version>/cephfs-xattr-influx-luminous.tar.gz | tar zx && mv cephfs-xattr-influx /usr/bin
 ```
 
 Copy the systemd unit files to `/etc/systemd/system':
