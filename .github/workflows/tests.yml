@@ -11,12 +11,12 @@ jobs:
     runs-on: ubuntu-18.04
     strategy:
       matrix:
-        ceph_version: 
+        ceph_version:
         - "luminous"
     steps:
-      - name: Install Ceph dep
+      - name: Install Ceph dependency
         run: |
-          sudo apt-add-repository 'deb https://download.ceph.com/debian-${{ matrix.ceph_version }}/ $(lsb_release -sc) main'
+          sudo echo deb https://download.ceph.com/debian-${{ matrix.ceph_version }}/ $(lsb_release -sc) main | sudo tee /etc/apt/sources.list.d/ceph.list
           sudo apt-get update
           sudo apt-get install -y libcephfs-dev librbd-dev librados-dev
 
@@ -30,12 +30,12 @@ jobs:
 
       - name: Get dependencies
         run: go get -v -t -d ./...
-      
+
       - name: Run go fmt
         run: diff -u <(echo -n) <(gofmt -d -s .)
 
       - name: Run go vet
         run: go vet ./...
-      
+
       - name: Test
         run: go test -v .
