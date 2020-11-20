@@ -16,6 +16,7 @@ jobs:
     steps:
       - name: Install Ceph dependency
         run: |
+          sudo wget -q -O- 'https://download.ceph.com/keys/release.asc' | sudo apt-key add -
           sudo echo deb https://download.ceph.com/debian-${{ matrix.ceph_version }}/ $(lsb_release -sc) main | sudo tee /etc/apt/sources.list.d/ceph.list
           sudo apt-get update
           sudo apt-get install -y libcephfs-dev librbd-dev librados-dev
@@ -35,7 +36,7 @@ jobs:
         run: diff -u <(echo -n) <(gofmt -d -s .)
 
       - name: Run go vet
-        run: go vet ./...
+        run: go vet -tags ${{ matrix.ceph_version }} ./...
 
       - name: Test
-        run: go test -v .
+        run: go test -tags ${{ matrix.ceph_version }}  -v .
