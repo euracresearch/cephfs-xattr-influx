@@ -1,4 +1,4 @@
-module github.com/euracresearch/test
+module github.com/euracresearch/cephfs-xattr-influx
 
 go 1.15
 
