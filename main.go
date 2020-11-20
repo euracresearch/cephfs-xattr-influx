@@ -2,23 +2,22 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// cephfs-xattr-influx will read the given paths JSON file and
-// for each path retrieve the xattr of it and store it in
-// InfluxDB.
+// cephfs-xattr-influx will read the given paths JSON file and for each path
+// retrieve the extended file attributes of it and store it in InfluxDB.
 //
 // Sample of paths JSON file:
-//	[
-//		{
-//			"Organisation": "root",
-//			"User": "root",
-//			"Path": "/"
-//		},
-//		{
-//			"Organisation": "org1",
-//			"User": "user2",
-//			"Path": "/org1/user2"
-//		}
-//	]
+//  [
+//      {
+//          "Organisation": "root",
+//          "User": "root",
+//          "Path": "/"
+//      },
+//      {
+//          "Organisation": "org1",
+//          "User": "user2",
+//          "Path": "/org1/user2"
+//      }
+//  ]
 //
 package main
 
@@ -147,7 +146,8 @@ func radosConfiguration(c *rados.Conn, mons string) error {
 	return c.ReadDefaultConfigFile()
 }
 
-// Path is a CephFS path for which xattr will be optained with additional metadata.
+// Path is a CephFS path for which extended file attributes will be optained
+// with additional metadata.
 type Path struct {
 	Organisation string
 	User         string
