@@ -47,7 +47,7 @@ func main() {
 		cephClient   = fs.String("ceph.client", "admin", "Ceph client name.")
 		cephKey      = fs.String("ceph.keyring", "", "Ceph client authentication key.")
 		cephMons     = fs.String("ceph.mons", "", "Comma seperated list of ceph monitors. (e.g. mon1,mon2)")
-		pathsFile    = fs.String("paths", "paths.json", "JSON file with the paths to monitor.")
+		pathsFile    = fs.String("paths", "/etc/cephfs-xattr-influx/paths.json", "JSON file with the paths to monitor.")
 		_            = fs.String("config", "", "config file (optional)")
 	)
 
