@@ -1,0 +1,9 @@
+[Unit]
+Description=Read CephFS directories XATTRs and store them in InfluxDB
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/cephfs-xattr-influx -config /etc/cephfs-xattr-influx/config
+
+[Install]
+WantedBy=multi-user.target
